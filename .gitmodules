@@ -1,3 +1,6 @@
 [submodule "bin/Models"]
 	path = bin/Models
 	url = https://github.com/ProjectVarla/Models.git
+[submodule "bin/VarlaLib"]
+	path = bin/VarlaLib
+	url = https:.com/ProjectVarla/VarlaLib.git
