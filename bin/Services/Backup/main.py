@@ -5,11 +5,13 @@ from shutil import rmtree
 from typing import Generator
 
 import yaml
+from dotenv import load_dotenv
 from Models import Configuration, RemoteBackup
 from VarlaLib import Varla
 from yaml.loader import SafeLoader
 
-TEMP_PATH = "/tmp/Varla-FileManager-Backup"
+load_dotenv()
+TEMP_PATH: str = str(getenv("TEMP_PATH"))
 
 
 def backup_configurations(
