@@ -8,9 +8,12 @@ pyyaml = "*"
 fastapi = "*"
 pydantic = "*"
 python-dotenv = "*"
-autoflake = "*"
+requests = "*"
+uvicorn = "*"
 
 [dev-packages]
+autoflake = "*"
+black = "*"
 
 [requires]
 python_version = "3.10"

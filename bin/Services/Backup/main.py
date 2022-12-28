@@ -9,17 +9,20 @@ from Models import Configuration, RemoteBackup
 from VarlaLib import Varla
 from yaml.loader import SafeLoader
 
-
-
-
 TEMP_PATH = "/tmp/Varla-FileManager-Backup"
 
 
-def backup_configurations(config_path:str) -> Generator[Configuration, None, None]:
+def backup_configurations(
+    config_path: str, filter: str = None
+) -> Generator[Configuration, None, None]:
     with open(config_path, "r") as f:
         configs = yaml.load(f, Loader=SafeLoader)
-        for config in configs["backups"]:
-            yield Configuration(**config)
+        for config in [Configuration(**config) for config in configs["backups"]]:
+            if filter:
+                if config.PREFIX.lower() == filter.lower():
+                    yield config
+            else:
+                yield config
 
 
 def directory_backup(
@@ -164,11 +167,20 @@ def copy_to_remote_destinations(
         Varla.verbose("Skipping remote backups!")
 
 
-def run_backups(config_path:str):
+class Backup:
 
-    # Go over all backup configs
-    for config in backup_configurations(config_path):
+    Busy = False
 
+    def run_backups(config_path: str, filter: str = None):
+        # Go over all backup configs
+        print(filter)
+        for config in backup_configurations(config_path, filter):
+            Backup.run_backup(config)
+
+    def run_backup(config: Configuration):
+
+        Backup.Busy = True
+        Varla.info(config.PREFIX, "backup has started!")
         # init TEMP_PATH
         create_temp_dir()
 
@@ -177,9 +189,7 @@ def run_backups(config_path:str):
         # Copy all directories to "TEMP_PATH"
         copy_source_directories(config.source_directories, config.PREFIX)
 
-        backup_databases(
-            databases=config.database_names, destination=TEMP_PATH
-        )
+        backup_databases(databases=config.database_names, destination=TEMP_PATH)
 
         # Copy everything from "TEMP_PATH" to "config.destination_dir"
         directory_name = copy_to_destination(
@@ -196,3 +206,6 @@ def run_backups(config_path:str):
 
         # clean "TEMP_PATH"
         delete_temp_dir()
+
+        Backup.Busy = False
+        Varla.info(config.PREFIX, "backup has ended!")
