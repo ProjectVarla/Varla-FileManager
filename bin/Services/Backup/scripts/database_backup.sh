@@ -3,7 +3,7 @@
 # How to use:
 # ./backup.sh <DATABASE_NAME> <BACKUP_DESTINATION_DIR>
 
-source bin/services/backup/scripts/utility.sh
+source bin/Services/Backup/scripts/utility.sh
 
 DATABASE_NAME=$1
 BACKUP_DESTINATION_DIR=$2

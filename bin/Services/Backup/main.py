@@ -38,7 +38,7 @@ def directory_backup(
     Varla.verbose(f"Backing-up ['{source}']")
     try:
         directory_name = subprocess.check_output(
-            "./bin/services/backup/scripts/backup.sh {0} {1} {2} {3} {4}".format(
+            "bin/Services/Backup/scripts/backup.sh {0} {1} {2} {3} {4}".format(
                 source,
                 destination,
                 prefix,
@@ -63,7 +63,7 @@ def directory_backup(
 
 def database_backup(database_name: str, destination: str):
     if not system(
-        "./bin/services/backup/scripts/database_backup.sh {0} {1}".format(
+        "bin/Services/Backup/scripts/database_backup.sh {0} {1}".format(
             database_name,
             destination.replace(" ", "\\ "),
         )

@@ -3,7 +3,7 @@
 # How to use:
 # ./backup.sh <BACKUP_SOURCE_DIR> <BACKUP_DESTINATION_DIR> <PREFIX> -C optional for compression
 
-source bin/services/backup/scripts/utility.sh
+source bin/Services/Backup/scripts/utility.sh
 
 BACKUP_SOURCE_DIR=$1
 BACKUP_DESTINATION_DIR=$2

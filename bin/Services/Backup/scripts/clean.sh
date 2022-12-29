@@ -2,8 +2,7 @@
 
 # How to use:
 # ./clean.sh <DIR_PATH> <SIZE_WINDOW Optional Default 5 days>
-
-source bin/services/backup/scripts/utility.sh
+source bin/Services/Backup/scripts/utility.sh
 
 DIR_PATH=$1
 SIZE_WINDOW=$2 # Default 5 Days
