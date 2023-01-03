@@ -1,17 +1,16 @@
 import subprocess
-from os import getenv, system
+from os import system
 from pathlib import Path
 from shutil import rmtree
 from typing import Generator
 
 import yaml
-from dotenv import load_dotenv
+from conf import settings
 from Models import Configuration, RemoteBackup
 from VarlaLib import Varla
 from yaml.loader import SafeLoader
 
-load_dotenv()
-TEMP_PATH: str = str(getenv("TEMP_PATH"))
+TEMP_PATH: str = settings.BACKUP_TEMPORARY_PATH
 
 
 def backup_configurations(

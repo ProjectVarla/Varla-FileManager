@@ -1,13 +1,9 @@
-from os import getenv
-
 import uvicorn
-from dotenv import load_dotenv
+from conf import settings
 from fastapi import FastAPI
 from Services import BackupRouter
 from VarlaLib import Varla, Verbosity
-
-load_dotenv()
-PORT: int = int(getenv("FILE_MANAGER_SERVICE_PORT"))
+from VarlaLib.Shell import varla_header
 
 app = FastAPI(title="Varla-FileManager")
 app.include_router(BackupRouter, prefix="/FileManager")
@@ -15,9 +11,19 @@ Varla.verbosity = Verbosity.VERBOSE
 
 
 @app.on_event("startup")
-async def startup_event():
-    Varla.info("FileManager is up!")
+async def startup_event() -> None:
+    Varla.info(f"{settings.APP_NAME} is up!")
+
+
+@app.on_event("shutdown")
+async def shutdown_event() -> None:
+    Varla.info(f"{settings.APP_NAME} is down!")
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", port=PORT, host="0.0.0.0")
+    varla_header()
+    uvicorn.run(
+        "main:app",
+        port=settings.FILE_MANAGER_PORT,
+        host=settings.FILE_MANAGER_HOST,
+    )
