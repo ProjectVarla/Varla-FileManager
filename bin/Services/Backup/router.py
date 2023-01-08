@@ -21,7 +21,7 @@ def trigger_backup(
         return {"message": "Busy"}
 
 
-@backup.post("/trigger_all/")
+@backup.post("/trigger_all")
 async def trigger_backup_all(background_tasks: BackgroundTasks, response: Response):
     if not Backup.Busy:
         background_tasks.add_task(Backup.run_backups, settings.BACKUP_CONFIG_PATH)
@@ -30,3 +30,10 @@ async def trigger_backup_all(background_tasks: BackgroundTasks, response: Respon
     else:
         response.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
         return {"message": "Busy"}
+
+
+@backup.post("/list")
+async def list_backups(response: Response):
+
+    response.status_code = status.HTTP_202_ACCEPTED
+    return {"message": Backup.list_backups()}

@@ -172,6 +172,9 @@ class Backup:
 
     Busy = False
 
+    def list_backups(config_path: str = settings.BACKUP_CONFIG_PATH):
+        return [config.PREFIX for config in backup_configurations(config_path)]
+
     def run_backups(config_path: str, filter: str = None):
         # Go over all backup configs
         print(filter)
