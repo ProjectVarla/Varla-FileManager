@@ -3,7 +3,7 @@ from conf import settings
 from fastapi import FastAPI
 from Services import BackupRouter
 from VarlaLib import Varla, Verbosity
-from VarlaLib.Shell import varla_header
+from VarlaLib.Shell import header
 
 app = FastAPI(title="Varla-FileManager")
 app.include_router(BackupRouter, prefix="/FileManager")
@@ -21,7 +21,7 @@ async def shutdown_event() -> None:
 
 
 if __name__ == "__main__":
-    varla_header()
+    header()
     uvicorn.run(
         "main:app",
         port=settings.FILE_MANAGER_PORT,
